@@ -1,0 +1,21 @@
+{
+ "circuits": [
+  {
+   "file": "quantum/seal_demo.qasm",
+   "algorithm": "grover-2-target-11",
+   "expected_outcome": "11",
+   "p_exact": 1.0
+  },
+  {
+   "algorithm": "dj-2-balanced",
+   "verdict": "REFUSED"
+  },
+  {
+   "algorithm": "bell-parity",
+   "expected_outcome": "00/11",
+   "parity_exact": 1.0
+  }
+ ],
+ "statevector_mode": "noiseless",
+ "note": "measured artifacts sealed by CI with Z-QEA (SHA3-256)"
+}
