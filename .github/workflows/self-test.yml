@@ -1,0 +1,23 @@
+name: self-test
+on: [push, pull_request]
+jobs:
+  seal:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Seal and verify roundtrip
+        run: |
+          echo '{"model":"demo","accuracy":0.99}' > /tmp/demo.json
+          python3 zqea_seal.py /tmp/demo.json -o /tmp/demo.sealed.json
+          python3 - <<'EOF'
+          import json,hashlib
+          r=json.load(open('/tmp/demo.sealed.json'))
+          payload={k:v for k,v in r.items() if k!='selo_sha3_256'}
+          rec=hashlib.sha3_256(json.dumps(payload,sort_keys=True,ensure_ascii=True,default=str).encode()).hexdigest()
+          assert rec==r['selo_sha3_256'], "roundtrip broken"
+          r['accuracy']=0.98  # tamper
+          payload={k:v for k,v in r.items() if k!='selo_sha3_256'}
+          rec2=hashlib.sha3_256(json.dumps(payload,sort_keys=True,ensure_ascii=True,default=str).encode()).hexdigest()
+          assert rec2!=r['selo_sha3_256'], "tamper should break seal"
+          print("roundtrip ok: seal verifies, tamper breaks")
+          EOF
