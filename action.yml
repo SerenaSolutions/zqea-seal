@@ -1,0 +1,20 @@
+name: 'Z-QEA Receipt Sealer'
+description: 'Seal any JSON artifact with a Z-QEA SHA3-256 seal in CI — the writing counterpart of Z-QEA Receipt Verifier.'
+author: 'Serena Quantum Solutions'
+branding:
+  icon: 'lock'
+  color: 'blue'
+inputs:
+  file:
+    description: 'JSON file to seal'
+    required: true
+  output:
+    description: 'sealed output path (default: <file>.sealed.json)'
+    required: false
+runs:
+  using: 'composite'
+  steps:
+    - name: 'Seal JSON artifact'
+      shell: bash
+      run: |
+        python3 "${{ github.action_path }}/zqea_seal.py" "${{ inputs.file }}" ${{ inputs.output && format('-o {0}', inputs.output) || '' }}
