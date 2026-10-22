@@ -7,8 +7,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Seal and verify roundtrip
         run: |
-          echo '{"model":"demo","accuracy":0.99}' > /tmp/demo.json
-          python3 zqea_seal.py /tmp/demo.json -o /tmp/demo.sealed.json
+          python3 zqea_seal.py quantum/measure_demo.json -o /tmp/demo.sealed.json
           python3 - <<'EOF'
           import json,hashlib
           r=json.load(open('/tmp/demo.sealed.json'))
