@@ -30,3 +30,11 @@ must arrive *exactly as sealed*.
 | `sealed-file` | path of the sealed file |
 
 Free forever, MIT. ZEPHIRUM product line: [zqea-verify](https://github.com/marketplace/actions/z-qea-receipt-verifier), [zq-gate](https://github.com/SerenaSolutions/zq-gate), [z-anyon-lab](https://github.com/SerenaSolutions/z-anyon-lab).
+
+## Prova de conceito (hardware real)
+
+Selou as 6 provas de conceito com assinatura pós-quântica ML-DSA-44 (FIPS 204) + entropia quântica atestada.
+
+Recibo selado: [`poc/receipt_sealer_poc.json`](poc/receipt_sealer_poc.json) — verificável com `python3 zqea_verify.py poc/receipt_sealer_poc.json --strict-pq`.
+
+Bateria completa do confronto multilíngue (OpenQASM 3, Qiskit, Cirq, PennyLane, Braket, Q#): [SerenaSolutions/quantum-poc](https://github.com/SerenaSolutions/quantum-poc).
