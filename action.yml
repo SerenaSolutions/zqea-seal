@@ -1,5 +1,5 @@
 name: 'Z-QEA Receipt Sealer'
-description: 'Seal any JSON artifact with a Z-QEA SHA3-256 seal in CI — the writing counterpart of Z-QEA Receipt Verifier.'
+description: 'Seal JSON artifacts with SHA3-256 + ML-DSA-44 post-quantum signatures and quantum-attested entropy.'
 author: 'Serena Quantum Solutions'
 branding:
   icon: 'lock'
@@ -14,6 +14,9 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: 'Install post-quantum core (ML-DSA-44)'
+      shell: bash
+      run: pip install --quiet pqcrypto
     - name: 'Seal JSON artifact'
       shell: bash
       run: |

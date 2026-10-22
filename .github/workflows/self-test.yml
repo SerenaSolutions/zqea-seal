@@ -7,6 +7,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Seal and verify roundtrip
         run: |
+          pip install --quiet pqcrypto
           python3 zqea_seal.py quantum/measure_demo.json -o /tmp/demo.sealed.json
           python3 - <<'EOF'
           import json,hashlib
@@ -18,5 +19,12 @@ jobs:
           payload={k:v for k,v in r.items() if k!='selo_sha3_256'}
           rec2=hashlib.sha3_256(json.dumps(payload,sort_keys=True,ensure_ascii=True,default=str).encode()).hexdigest()
           assert rec2!=r['selo_sha3_256'], "tamper should break seal"
-          print("roundtrip ok: seal verifies, tamper breaks")
-          EOF
+          from pqcrypto.sign import ml_dsa_44 as d
+          from zqea_pq import canonical
+          r2=json.load(open('/tmp/demo.sealed.json'))
+          blk=r2['assinatura_pq']
+          import base64
+          payload={k:v for k,v in r2.items() if k not in ('assinatura_pq','selo_sha3_256')}
+          d.verify(base64.b64decode(blk['pk_b64']),canonical(payload).encode(),base64.b64decode(blk['sig_b64']))
+          print("ML-DSA-44 signature valid; tamper breaks seal")
+          print("roundtrip ok: seal verifies, PQ signature valid, tamper breaks")          EOF
