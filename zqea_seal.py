@@ -24,6 +24,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("input", help="JSON file to seal")
     ap.add_argument("-o", "--output", help="sealed output path (default: <input>.sealed.json)")
+    ap.add_argument("--chain", metavar="PREV_RECEIPT",
+                    help="v2.1.0 — cadeia de proveniencia: sela o selo SHA3-256 do recibo anterior")
     a = ap.parse_args()
     try:
         rec = json.load(open(a.input))
@@ -31,6 +33,16 @@ def main():
         print("Z-QEA SEAL: MALFORMED INPUT —", e); return 2
     if not isinstance(rec, dict):
         print("Z-QEA SEAL: top-level JSON must be an object"); return 2
+    if a.chain:
+        try:
+            prev = json.load(open(a.chain))
+            prev_selo = prev.get("selo_sha3_256")
+            if not prev_selo:
+                print("Z-QEA SEAL: recibo anterior sem selo_sha3_256 — cadeia recusada"); return 2
+            rec["previous_seal"] = prev_selo
+            rec["previous_receipt"] = os.path.basename(a.chain)
+        except Exception as e:
+            print("Z-QEA SEAL: nao foi possivel ler o recibo anterior —", e); return 2
     rec["selo_regra"] = RULE
     rec["recibo_id"] = quantum_receipt_id("zqea-seal")
     rec["entropia_quantica"] = entropy_provenance()

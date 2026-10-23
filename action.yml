@@ -1,5 +1,5 @@
 name: 'Z-QEA Receipt Sealer'
-description: 'Seal JSON artifacts with SHA3-256 + ML-DSA-44 post-quantum signatures and quantum-attested entropy.'
+description: 'Seal JSON artifacts with SHA3-256 + ML-DSA-44 post-quantum signatures, quantum entropy, provenance chains.'
 author: 'Serena Quantum Solutions'
 branding:
   icon: 'lock'
