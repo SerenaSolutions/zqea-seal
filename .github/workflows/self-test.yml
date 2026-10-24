@@ -27,4 +27,5 @@ jobs:
           payload={k:v for k,v in r2.items() if k not in ('assinatura_pq','selo_sha3_256')}
           d.verify(base64.b64decode(blk['pk_b64']),canonical(payload).encode(),base64.b64decode(blk['sig_b64']))
           print("ML-DSA-44 signature valid; tamper breaks seal")
-          print("roundtrip ok: seal verifies, PQ signature valid, tamper breaks")          EOF
+          print("roundtrip ok: seal verifies, PQ signature valid, tamper breaks")
+          EOF
