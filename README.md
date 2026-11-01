@@ -1,6 +1,6 @@
 # Z-QEA Receipt Sealer
 
-![seal](https://img.shields.io/badge/seal-SHA3--256-blue) ![license](https://img.shields.io/badge/license-MIT-blue)
+![seal](https://img.shields.io/badge/seal-SHA3--256-blue) ![license](https://img.shields.io/badge/license-Apache--2.0-blue)
 
 **Seal any JSON artifact with a Z-QEA SHA3-256 seal in CI.** The writing counterpart of [Z-QEA Receipt Verifier](https://github.com/marketplace/actions/z-qea-receipt-verifier).
 
